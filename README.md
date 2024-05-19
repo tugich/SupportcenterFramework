@@ -4,7 +4,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## ℹ️  About The Project
-Easily create a single point of IT support with Tailwind CSS and WebView2
+Easily create a single point of IT support with PureBasic, Tailwind CSS and WebView2 (Microsoft Edge)
 
 
 <!-- GETTING STARTED -->
