@@ -1,0 +1,20 @@
+{
+  "Menus": [
+      {
+        "OpenIn": "browser",
+        "Url"    : "https://www.tugi.ch",
+        "Title"  : "My Website"
+      },
+      {
+        "OpenIn": "process",
+        "Url"    : "ms-quick-assist://",
+        "Title"  : "Start Quick Assist"
+      },
+      {
+        "OpenIn": "process",
+        "Url"    : "https://download.teamviewer.com/download/TeamViewerQS_x64.exe",
+        "Title"  : "Start TeamViewer Quick Assist"
+      }
+    ],
+  "Version"  : "1.1.0"
+}

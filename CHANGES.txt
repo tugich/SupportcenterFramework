@@ -1,0 +1,6 @@
+﻿Version 1.1.0:
+* Added App Configuration (Configuration.json) - You can dynamically customize the [File] menu
+* Fixed ShowHome() - Rebuilding the WebView gadget is no longer required
+
+Version 1.0.0:
+Initial Version

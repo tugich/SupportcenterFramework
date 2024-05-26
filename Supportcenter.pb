@@ -11,11 +11,28 @@ EnableExplicit
 UsePNGImageDecoder()
 
 ;------------------------------------------------------------------------------------
-;- Variables, Enumerations and Maps
+;- Structures
+;------------------------------------------------------------------------------------
+Structure Menu
+  OpenIn.s
+  Url.s
+  Title.s
+EndStructure
+
+Structure Configuration
+  List Menus.Menu()
+EndStructure
+
+;------------------------------------------------------------------------------------
+;- Variables, Enumerations, Lists and Maps
 ;------------------------------------------------------------------------------------
 Global Event = #Null, Quit = #False
+Global Customization.Configuration
+#JSON_Parser = 0
+
+; Files
 Global IndexFile.s = "file://" + GetCurrentDirectory() + "Web/src/index.html"
-Global TeamViewerQuickSupport.s = "https://download.teamviewer.com/download/TeamViewerQS_x64.exe"
+Global ConfigurationFile.s = GetCurrentDirectory() + "Configuration.json"
 
 ;------------------------------------------------------------------------------------
 ;- Forms
@@ -31,35 +48,81 @@ Procedure ShowMainWindow()
   BindEvent(#PB_Event_SizeWindow, @ResizeGadgetsMainWindow(), MainWindow)
 EndProcedure
 
-Procedure ShowHome()
-  SetGadgetText(WebView_Index, IndexFile)
+Procedure LoadConfiguration()
+  If LoadJSON(#JSON_Parser, ConfigurationFile)
+    ;Debug "JSON object data from file:"
+    ;Debug ComposeJSON(#JSON_Parser, #PB_JSON_PrettyPrint)
+    ExtractJSONStructure(JSONValue(#JSON_Parser), Customization, Configuration)
+    FreeJSON(#JSON_Parser)
+  Else
+    Debug "Can't read the configuration or the file is empty: " + ConfigurationFile
+  EndIf
 EndProcedure
 
-Procedure WebView_Home(EventType)
-  Debug "Inject JavaScript in WebView..."
-  FreeGadget(WebView_Index)
-  WebView_Index = WebViewGadget(#PB_Any, 0, 0, WindowWidth(MainWindow), WindowHeight(MainWindow)-3, #PB_WebView_Debug)
-  ShowHome()
+Procedure WebView_Home()
+  Debug "WebView: Show Local File: " + IndexFile 
+  If IsGadget(WebView_Index) : SetGadgetText(WebView_Index, IndexFile) : EndIf
 EndProcedure
 
-Procedure StartQuickAssist(EventType)
-  Debug "Starting Microsoft Quick Assist by Protocol..."
-  RunProgram("ms-quick-assist://")
-EndProcedure
-
-Procedure StartTeamViewerQS(EventType)
-  RunProgram(TeamViewerQuickSupport)
-EndProcedure
-
-Procedure QuitApplication(EventType)
+Procedure Menu_Quit()
   End
+EndProcedure
+
+Procedure Menu_EventHandler()
+  Protected Entry = EventGadget(), i = 1
+  Protected OpenIn.s, Url.s
+  
+  ForEach Customization\Menus()
+    If Entry = i
+      OpenIn = Customization\Menus()\OpenIn
+      Url = Customization\Menus()\Url
+    EndIf
+    
+    ; Counter
+    i+1
+  Next
+  
+  Debug "Open-in ("+OpenIn+") with url: " + Url
+  Select OpenIn
+    Case "process":
+      RunProgram(Url)
+    Case "browser":
+      If IsGadget(WebView_Index) : SetGadgetText(WebView_Index, Url) : EndIf
+  EndSelect
+  
+EndProcedure
+
+Procedure BuildMenu()
+  Protected i = 1
+  
+  If CreateMenu(0, WindowID(MainWindow))
+    MenuTitle("File")
+    
+      ForEach Customization\Menus()
+        MenuItem(i, Customization\Menus()\Title)
+        BindMenuEvent(0, i, @Menu_EventHandler())
+        
+        ; Counter
+        i+1
+      Next 
+      
+      MenuBar()
+      MenuItem(98, "&Quit")
+      BindMenuEvent(0, 98, @Menu_Quit())
+
+    MenuTitle("Browse")
+      MenuItem(99, "Home")
+      BindMenuEvent(0, 99, @WebView_Home())
+  EndIf
 EndProcedure
 
 ;------------------------------------------------------------------------------------
 ;- Main Loop
 ;------------------------------------------------------------------------------------
 ShowMainWindow()
-ShowHome()
+LoadConfiguration()
+BuildMenu()
+WebView_Home()
 
 ;------------------------------------------------------------------------------------
 ;- Event Loop
@@ -77,9 +140,10 @@ Repeat
   EndSelect
   
 Until Quit = #True
+
 ; IDE Options = PureBasic 6.10 LTS (Windows - x64)
-; CursorPosition = 47
-; FirstLine = 22
-; Folding = --
+; CursorPosition = 89
+; FirstLine = 44
+; Folding = 1-
 ; EnableXP
 ; DPIAware

@@ -11,10 +11,10 @@
     <ROW Property="ARPPRODUCTICON" Value="Supportcenter.exe" Type="8"/>
     <ROW Property="LIMITUI" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="Manufacturer" Value="My Company"/>
-    <ROW Property="ProductCode" Value="1033:{1A0EFBF5-E4C3-4235-B837-6A59E1F1C638} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{6AABAFCC-1E9D-43C2-AD20-9DFEAB29B020} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Supportcenter"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.1.0" Options="32"/>
     <ROW Property="REBOOT" MultiBuildValue="DefaultBuild:ReallySuppress"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{E607F0F5-D6CC-41FA-A36A-CBF9FF3D334D}"/>
@@ -67,6 +67,7 @@
     <ROW File="index.html" Component_="index.html" FileName="INDEX~1.HTM|index.html" Attributes="0" SourcePath="..\Web\src\index.html" SelfReg="false"/>
     <ROW File="Supportcenter.ico" Component_="Supportcenter.ico" FileName="SUPPOR~1.ICO|Supportcenter.ico" Attributes="0" SourcePath="..\Supportcenter.ico" SelfReg="false"/>
     <ROW File="logo.png" Component_="background.jpg" FileName="logo.png" Attributes="0" SourcePath="..\Web\src\images\logo.png" SelfReg="false"/>
+    <ROW File="Configuration.json" Component_="Supportcenter.ico" FileName="CONFIG~1.JSO|Configuration.json" Attributes="0" SourcePath="..\Configuration.json" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>

@@ -11,31 +11,12 @@ Global MainWindow
 
 Global WebView_Index
 
-Enumeration FormMenu
-  #MenuItem_StartQuickAssist
-  #MenuItem_StartTeamViewerQS
-  #MenuItem_QuitApplication
-  #MenuItem_Home
-EndEnumeration
-
 Declare ResizeGadgetsMainWindow()
 
-Declare QuitApplication(Event)
-Declare WebView_Home(Event)
-Declare StartTeamViewerQS(Event)
-Declare StartQuickAssist(Event)
 
 Procedure OpenMainWindow(x = 0, y = 0, width = 1400, height = 950)
   MainWindow = OpenWindow(#PB_Any, x, y, width, height, "Supportcenter", #PB_Window_SystemMenu | #PB_Window_MinimizeGadget | #PB_Window_MaximizeGadget | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
   SetWindowColor(MainWindow, RGB(255,255,255))
-  CreateMenu(0, WindowID(MainWindow))
-  MenuTitle("File")
-  MenuItem(#MenuItem_StartQuickAssist, "Start Quick Assist")
-  MenuItem(#MenuItem_StartTeamViewerQS, "Start TeamViewer QuickAssist")
-  MenuBar()
-  MenuItem(#MenuItem_QuitApplication, "Quit")
-  MenuTitle("Browse")
-  MenuItem(#MenuItem_Home, "Home")
   WebView_Index = WebViewGadget(#PB_Any, 0, 0, 1400, 928)
 EndProcedure
 
@@ -43,7 +24,7 @@ Procedure ResizeGadgetsMainWindow()
   Protected FormWindowWidth, FormWindowHeight
   FormWindowWidth = WindowWidth(MainWindow)
   FormWindowHeight = WindowHeight(MainWindow)
-  ResizeGadget(WebView_Index, 0, 0, FormWindowWidth - 0, FormWindowHeight - MenuHeight() - 0)
+  ResizeGadget(WebView_Index, 0, 0, FormWindowWidth - 0, FormWindowHeight - 22)
 EndProcedure
 
 Procedure MainWindow_Events(event)
@@ -55,14 +36,6 @@ Procedure MainWindow_Events(event)
 
     Case #PB_Event_Menu
       Select EventMenu()
-        Case #MenuItem_StartQuickAssist
-          StartQuickAssist(EventMenu())
-        Case #MenuItem_StartTeamViewerQS
-          StartTeamViewerQS(EventMenu())
-        Case #MenuItem_QuitApplication
-          QuitApplication(EventMenu())
-        Case #MenuItem_Home
-          WebView_Home(EventMenu())
       EndSelect
 
     Case #PB_Event_Gadget
